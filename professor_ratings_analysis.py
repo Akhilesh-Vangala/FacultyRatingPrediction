@@ -1595,31 +1595,7 @@ plt.show()
 
 """
 
-# Question 9: OLS (Ordinary Least Squares) - No Regularization
-print("\n" + "="*70)
-print("QUESTION 9: OLS (Ordinary Least Squares)")
-print("="*70)
-
-# OLS using LinearRegression (no regularization)
-ols_q9 = LinearRegression()
-ols_q9.fit(X_diff_train_scaled, y_diff_train)
-
-y_ols_q9_train_pred = ols_q9.predict(X_diff_train_scaled)
-y_ols_q9_test_pred = ols_q9.predict(X_diff_test_scaled)
-
-q9_ols_train_r2 = r2_score(y_diff_train, y_ols_q9_train_pred)
-q9_ols_test_r2 = r2_score(y_diff_test, y_ols_q9_test_pred)
-q9_ols_test_rmse = np.sqrt(mean_squared_error(y_diff_test, y_ols_q9_test_pred))
-
-print(f"\nTrain R²: {q9_ols_train_r2:.4f}")
-print(f"Test R²: {q9_ols_test_r2:.4f}")
-print(f"Test RMSE: {q9_ols_test_rmse:.4f}")
-print(f"\nComparison with Ridge (α=1.0):")
-print(f"  OLS Test R²: {q9_ols_test_r2:.4f}")
-print(f"  Ridge Test R²: {diff_test_r2:.4f}")
-print(f"  Difference: {((q9_ols_test_r2 - diff_test_r2) / diff_test_r2 * 100):.2f}%")
-
-# Question 9: Regression model predicting difficulty from tags
+# Question 9: Regression model predicting difficulty from tags (data prep first)
 q9_data = df_clean[df_clean['AvgDifficulty'].notna()].copy()
 X_tags_diff = q9_data[tag_features].copy()
 y_diff = q9_data['AvgDifficulty'].copy()
@@ -1658,6 +1634,30 @@ print(f"  Training R²: {diff_train_r2:.4f}")
 print(f"  Test R²: {diff_test_r2:.4f}")
 print(f"  Training RMSE: {diff_train_rmse:.4f}")
 print(f"  Test RMSE: {diff_test_rmse:.4f}")
+
+# Question 9: OLS (Ordinary Least Squares) - No Regularization
+print("\n" + "="*70)
+print("QUESTION 9: OLS (Ordinary Least Squares)")
+print("="*70)
+
+# OLS using LinearRegression (no regularization)
+ols_q9 = LinearRegression()
+ols_q9.fit(X_diff_train_scaled, y_diff_train)
+
+y_ols_q9_train_pred = ols_q9.predict(X_diff_train_scaled)
+y_ols_q9_test_pred = ols_q9.predict(X_diff_test_scaled)
+
+q9_ols_train_r2 = r2_score(y_diff_train, y_ols_q9_train_pred)
+q9_ols_test_r2 = r2_score(y_diff_test, y_ols_q9_test_pred)
+q9_ols_test_rmse = np.sqrt(mean_squared_error(y_diff_test, y_ols_q9_test_pred))
+
+print(f"\nTrain R²: {q9_ols_train_r2:.4f}")
+print(f"Test R²: {q9_ols_test_r2:.4f}")
+print(f"Test RMSE: {q9_ols_test_rmse:.4f}")
+print(f"\nComparison with Ridge (α=1.0):")
+print(f"  OLS Test R²: {q9_ols_test_r2:.4f}")
+print(f"  Ridge Test R²: {diff_test_r2:.4f}")
+print(f"  Difference: {((q9_ols_test_r2 - diff_test_r2) / diff_test_r2 * 100):.2f}%")
 
 # Feature importance
 diff_tag_importance = pd.DataFrame({
